@@ -1,0 +1,118 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 216 33% 97%;
+  --foreground: 220 28% 15%;
+  --surface: 0 0% 100%;
+  --muted: 214 32% 95%;
+  --border: 214 24% 90%;
+  --ring: 239 64% 58%;
+  --primary: 239 64% 58%;
+  --primary-hover: 243 63% 49%;
+  --secondary: 262 60% 58%;
+  --ai: 262 60% 58%;
+  --info: 214 84% 60%;
+  --danger: 0 58% 61%;
+  --orange-50: 226 100% 98%;
+  --orange-100: 226 100% 95%;
+  --orange-200: 226 92% 90%;
+  --orange-300: 230 86% 80%;
+  --orange-400: 235 76% 68%;
+  --orange-500: 239 64% 58%;
+  --orange-600: 243 63% 49%;
+  --green-50: 152 60% 97%;
+  --green-100: 152 60% 92%;
+  --green-200: 152 52% 84%;
+  --green-300: 152 45% 70%;
+  --green-400: 152 42% 55%;
+  --green-500: 152 78% 36%;
+  --green-600: 152 78% 30%;
+  --radius-sm: 0.75rem;
+  --radius-md: 1rem;
+  --radius-lg: 1.5rem;
+  --radius-xl: 1.75rem;
+  --shadow-card: 0 18px 60px -32px rgba(15, 23, 42, 0.25);
+}
+
+* {
+  border-color: hsl(var(--border));
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, rgba(79, 70, 229, 0.06), transparent 28%),
+    radial-gradient(circle at top right, rgba(124, 58, 237, 0.05), transparent 24%),
+    linear-gradient(180deg, #fbfcff 0%, #ffffff 28%, #f7f9fc 100%);
+  color: hsl(var(--foreground));
+  font-family: "Avenir Next", "Aptos", "Segoe UI Variable", "Segoe UI", ui-sans-serif, sans-serif;
+}
+
+button, a, input, textarea, select {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:active, a:active {
+  transform: translateY(1px);
+}
+
+.taskmesh-enter {
+  animation: taskmesh-enter 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.taskmesh-stagger > * {
+  animation: taskmesh-enter 480ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.taskmesh-stagger > *:nth-child(2) { animation-delay: 50ms; }
+.taskmesh-stagger > *:nth-child(3) { animation-delay: 100ms; }
+.taskmesh-stagger > *:nth-child(4) { animation-delay: 150ms; }
+
+@keyframes taskmesh-enter {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+a {
+  text-decoration: none;
+}
+
+::selection {
+  background: rgba(79, 70, 229, 0.16);
+}
+
+.taskmesh-grid {
+  background-image:
+    linear-gradient(rgba(148, 163, 184, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, 0.06) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.taskmesh-noise {
+  position: relative;
+}
+
+.taskmesh-noise::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(circle at 1px 1px, rgba(148, 163, 184, 0.04) 1px, transparent 0);
+  background-size: 18px 18px;
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0));
+}
