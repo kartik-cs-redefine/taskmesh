@@ -1,33 +1,23 @@
 "use client";
 
 import Link from "next/link";
+import { SignIn as ClerkSignIn, SignUp as ClerkSignUp } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
 import {
   ArrowRight,
-  BadgeCheck,
   BarChart3,
   Bell,
-  BookOpen,
   CheckCircle2,
   ChevronRight,
-  Clock3,
-  FileText,
-  Flame,
   LineChart,
-  Link2,
   ListTodo,
-  Medal,
-  MessageSquareQuote,
-  Mic,
   Sparkles,
-  Target,
-  Trophy,
   Users2,
   Zap
 } from "lucide-react";
 import { HeroHeader } from "@/components/layout/shells";
-import { Avatar, Badge, Button, Card, InlineStat, Input, MetricCard, Progress, SectionHeader, SoftPanel, Textarea } from "@/components/ui";
-import { HorizontalBars, MiniLineChart, TinySpark } from "@/components/charts";
+import { Avatar, Badge, Button, Card, InlineStat, Input, MetricCard, Progress, SectionHeader, Textarea } from "@/components/ui";
+import { HorizontalBars, MiniLineChart } from "@/components/charts";
 import {
   activeTasks,
   consistencyData,
@@ -46,102 +36,83 @@ import {
   submissions,
   todayTask
 } from "@/mock";
-import { cn, formatPercent, initials } from "@/lib/utils";
+import { cn, formatPercent } from "@/lib/utils";
 import type { Initiative } from "@/types";
 
 export function LandingPage() {
   return (
-    <main className="bg-[linear-gradient(180deg,#f8faff_0%,#ffffff_24%,#f7f9fc_100%)] text-slate-950">
-      <section className="mx-auto grid max-w-7xl gap-10 px-5 pb-16 pt-10 lg:grid-cols-[1.1fr_0.9fr] lg:px-8 lg:pb-24 lg:pt-16">
+    <main className="text-slate-950">
+      <section className="mx-auto grid max-w-7xl gap-8 px-5 pb-16 pt-10 lg:grid-cols-[1.06fr_0.94fr] lg:px-8 lg:pb-20 lg:pt-16">
         <div className="max-w-3xl">
-          <Badge tone="orange" className="mb-5">AI-powered initiative tracking</Badge>
-          <h1 className="text-5xl font-semibold tracking-tight text-slate-950 md:text-7xl">
-            Build consistency.
-            <span className="block bg-gradient-to-r from-indigo-600 via-indigo-500 to-violet-600 bg-clip-text text-transparent">Measure growth.</span>
+          <Badge tone="slate" className="mb-5">AI-powered growth operations</Badge>
+          <h1 className="max-w-3xl text-5xl font-semibold tracking-tight text-slate-950 md:text-7xl">
+            Run initiatives,
+            <span className="block text-slate-600">track progress, and keep feedback structured.</span>
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
-            TaskMesh transforms peer-led challenges and learning initiatives into structured, measurable growth journeys powered by automation and AI.
+            TaskMesh helps participants complete recurring work, submit in the right format, and receive rubric-based feedback while leaders keep cohorts organized and visible.
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <Button asChild>
-              <Link href="/app/dashboard">
-                Explore TaskMesh
+              <Link href="/sign-up">
+                Start a workspace
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </Button>
             <Button variant="outline" asChild>
-              <a href="#how">See how it works</a>
+              <a href="#how">See the workflow</a>
             </Button>
           </div>
           <div className="mt-10 grid gap-4 sm:grid-cols-3">
-            <InlineStat label="Daily submissions" value="1,284" subtext="Across all live initiatives" />
-            <InlineStat label="Average feedback" value="8 min" subtext="AI evaluation turnaround" />
-            <InlineStat label="Consistency uplift" value="+22%" subtext="Compared to manual tracking" />
+            <InlineStat label="Primary users" value="Participants + leaders" subtext="One product for both sides of the workflow" />
+            <InlineStat label="Submission formats" value="Text, code, media" subtext="Supports the output type each task needs" />
+            <InlineStat label="Feedback model" value="AI rubric review" subtext="Structured guidance after each submission" />
           </div>
         </div>
 
-        <Card className="relative overflow-hidden border-slate-200 bg-slate-950 p-0 text-white shadow-[0_30px_90px_-36px_rgba(15,23,42,0.7)]">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(79,70,229,0.20),transparent_32%),radial-gradient(circle_at_75%_28%,rgba(124,58,237,0.16),transparent_28%),linear-gradient(180deg,rgba(15,23,42,0.95),rgba(15,23,42,0.92))]" />
-          <div className="relative p-5">
-            <div className="mb-4 flex items-center justify-between">
+        <Card className="overflow-hidden border-slate-200 bg-slate-950 p-0 text-white shadow-[0_30px_90px_-36px_rgba(15,23,42,0.7)]">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_20%,rgba(37,99,235,0.18),transparent_28%),radial-gradient(circle_at_70%_30%,rgba(20,184,166,0.12),transparent_24%),linear-gradient(180deg,rgba(15,23,42,0.98),rgba(15,23,42,0.92))]" />
+          <div className="relative p-6">
+            <div className="mb-5 flex items-center justify-between">
               <div>
-                <p className="text-xs uppercase tracking-[0.24em] text-white/55">TaskMesh workspace preview</p>
-                <p className="mt-2 text-lg font-semibold">Student dashboard</p>
+                <p className="text-xs uppercase tracking-[0.24em] text-white/50">Workspace map</p>
+                <p className="mt-2 text-lg font-semibold">Everything stays in one flow</p>
               </div>
-              <Badge tone="green">Live</Badge>
+              <Badge tone="green">Ready</Badge>
             </div>
-            <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-              <MetricCard label="Current streak" value="12 days" delta="+3" />
-              <MetricCard label="Weekly consistency" value="86%" delta="+7%" tone="green" />
-              <MetricCard label="Average score" value="87" delta="+4" tone="orange" />
-              <MetricCard label="Leaderboard rank" value="#08" delta="+2" />
+            <div className="grid gap-3 sm:grid-cols-2">
+              {[
+                { title: "Initiatives", text: "Organize cohorts, rules, and cadence." },
+                { title: "Tasks", text: "Publish recurring work with clear due dates." },
+                { title: "Submissions", text: "Handle text, code, files, audio, and video." },
+                { title: "Evaluation", text: "Turn AI review into structured feedback." }
+              ].map((item) => (
+                <div key={item.title} className="rounded-[24px] border border-white/10 bg-white/6 p-4">
+                  <p className="text-sm font-semibold text-white">{item.title}</p>
+                  <p className="mt-2 text-sm leading-6 text-white/68">{item.text}</p>
+                </div>
+              ))}
             </div>
-            <div className="mt-4 grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
-              <div className="rounded-3xl border border-white/10 bg-white/6 p-4 backdrop-blur">
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <p className="text-xs uppercase tracking-[0.24em] text-white/50">Today's task</p>
-                    <h3 className="mt-2 text-xl font-semibold">Binary Search Challenge</h3>
-                    <p className="mt-2 text-sm leading-6 text-white/70">
-                      Complete 2 binary-search problems and explain your approach in a short voice note.
-                    </p>
-                  </div>
-                  <Badge tone="orange">Medium</Badge>
+            <div className="mt-4 rounded-[24px] border border-white/10 bg-white/6 p-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-xs uppercase tracking-[0.22em] text-white/50">Attention layer</p>
+                  <p className="mt-1 text-sm font-medium text-white">What needs action next</p>
                 </div>
-                <div className="mt-4 rounded-2xl bg-white/8 p-4">
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-white/60">Submission progress</span>
-                    <span className="font-medium">{formatPercent(todayTask.progress)}</span>
-                  </div>
-                  <Progress value={todayTask.progress} className="mt-3 bg-white/10" />
-                  <div className="mt-3 flex items-center justify-between text-xs text-white/55">
-                    <span>Due today, 9:00 PM</span>
-                    <span>Feedback will appear after submit</span>
-                  </div>
-                </div>
+                <Badge tone="slate">Participant + leader views</Badge>
               </div>
-              <div className="rounded-3xl border border-white/10 bg-white/6 p-4 backdrop-blur">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-xs uppercase tracking-[0.24em] text-white/50">AI feedback</p>
-                    <h3 className="mt-2 text-lg font-semibold">87 score</h3>
-                  </div>
-                  <CheckCircle2 className="h-6 w-6 text-emerald-400" />
+              <div className="mt-4 grid gap-3 sm:grid-cols-3">
+                <div className="rounded-2xl bg-white/8 p-3">
+                  <p className="text-xs text-white/55">Today</p>
+                  <p className="mt-2 text-sm font-medium text-white">Task due</p>
                 </div>
-                <div className="mt-4 space-y-3">
-                  {feedback[0].strengths.slice(0, 2).map((item) => (
-                    <div key={item} className="flex items-start gap-3 rounded-2xl bg-white/8 p-3">
-                      <Badge tone="green">Strength</Badge>
-                      <p className="text-sm leading-6 text-white/80">{item}</p>
-                    </div>
-                  ))}
+                <div className="rounded-2xl bg-white/8 p-3">
+                  <p className="text-xs text-white/55">Feedback</p>
+                  <p className="mt-2 text-sm font-medium text-white">Review ready</p>
                 </div>
-                <div className="mt-4 flex items-center gap-3 rounded-2xl border border-dashed border-white/15 p-3">
-                  <TinySpark data={[64, 68, 70, 73, 77, 81, 87]} />
-                  <div>
-                    <p className="text-sm font-medium">Growth trend</p>
-                    <p className="text-xs text-white/55">Moving up over the last 4 weeks</p>
-                  </div>
+                <div className="rounded-2xl bg-white/8 p-3">
+                  <p className="text-xs text-white/55">Leaders</p>
+                  <p className="mt-2 text-sm font-medium text-white">Cohort health</p>
                 </div>
               </div>
             </div>
@@ -152,17 +123,17 @@ export function LandingPage() {
       <section id="features" className="mx-auto max-w-7xl px-5 pb-20 lg:px-8">
         <SectionHeader
           eyebrow="Why TaskMesh"
-          title="Everything communities need to keep practice structured and visible"
-          description="Use one system for tasks, submissions, AI evaluation, streaks, groups, and reports."
+          title="A coherent system for practice, review, and accountability"
+          description="The product is organized around the actual workflow: assign, submit, evaluate, improve, and report."
         />
         <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
           {[
-            ["Automated task flow", "Daily task assignment, reminders, and submission status tracking without manual spreadsheets.", ListTodo],
-            ["AI evaluation", "Structured feedback, rubric scoring, and personalized improvement tips after each submission.", Sparkles],
-            ["Consistency analytics", "Track streaks, weekly consistency, skill growth, and at-risk members in one place.", LineChart],
-            ["Private groups", "Create accountability pods for special cohorts, peer review circles, or invite-only batches.", Users2],
-            ["Leader insights", "Identify inactive learners, weak areas, and high performers with actionable reports.", BarChart3],
-            ["Modern notifications", "Announcements, feedback, reminders, and milestones flow into a focused inbox.", Bell]
+            ["Task flow", "Recurring work, due dates, completion state, and supported submission types stay obvious at every step.", ListTodo],
+            ["Structured feedback", "AI evaluation is presented as a report with scores, strengths, and next-step guidance.", Sparkles],
+            ["Growth tracking", "Progress, streaks, ranking, and skill trends live in one consistent dashboard.", LineChart],
+            ["Private groups", "Invite-only pods keep cohorts focused without exposing the rest of the workspace.", Users2],
+            ["Leader insight", "Spot engagement gaps, watch initiative health, and triage attention with clarity.", BarChart3],
+            ["Notification hub", "Reminders, feedback, announcements, and system updates are categorized in one place.", Bell]
           ].map(([title, description, Icon]) => (
             <Card key={title as string} className="p-6">
               <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-950 text-white shadow-soft">
@@ -178,19 +149,18 @@ export function LandingPage() {
       <section id="how" className="mx-auto max-w-7xl px-5 pb-20 lg:px-8">
         <SectionHeader
           eyebrow="How it works"
-          title="A simple journey from discovery to growth"
-          description="TaskMesh turns informal communities into measurable growth systems without adding friction."
+          title="A workflow that keeps users moving without clutter"
+          description="TaskMesh is designed so participants know what to do next and leaders know what needs attention."
         />
-        <div className="mt-8 grid gap-4 lg:grid-cols-5">
+        <div className="mt-8 grid gap-4 lg:grid-cols-4">
           {[
-            ["Discover", "Browse initiatives by skill, difficulty, duration, or task frequency."],
-            ["Join", "Enter public cohorts or private accountability pods with one click."],
-            ["Practice", "Receive today's task and submit in the format that fits the task."],
-            ["Evaluate", "AI scores against a rubric and returns structured feedback."],
-            ["Improve", "Progress, streaks, and leaderboards update automatically."]
+            ["Join an initiative", "Pick a cohort or receive an invite from a leader."],
+            ["Complete today's task", "Work in text, code, media, or files as needed."],
+            ["Submit and evaluate", "The submission moves through a clear evaluation state."],
+            ["Review progress", "Dashboards, streaks, and analytics update in one place."]
           ].map((step, index) => (
             <Card key={step[0]} className="p-5">
-              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-orange-600">0{index + 1}</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">0{index + 1}</p>
               <h3 className="mt-3 text-lg font-semibold text-slate-950">{step[0]}</h3>
               <p className="mt-2 text-sm leading-6 text-slate-600">{step[1]}</p>
             </Card>
@@ -200,9 +170,9 @@ export function LandingPage() {
 
       <section id="initiatives" className="mx-auto max-w-7xl px-5 pb-20 lg:px-8">
         <SectionHeader
-          eyebrow="Initiatives preview"
-          title="Built for any kind of peer-led challenge"
-          description="From coding cohorts to speaking clubs and habit challenges, TaskMesh adapts to the initiative."
+          eyebrow="Initiative examples"
+          title="Adaptable enough for coding, communication, and habit programs"
+          description="The same structure supports different skills without changing the mental model."
         />
         <div className="mt-8 grid gap-5 lg:grid-cols-2">
           {initiatives.map((initiative) => (
@@ -211,23 +181,16 @@ export function LandingPage() {
         </div>
       </section>
 
-      <section id="insights" className="mx-auto max-w-7xl px-5 pb-20 lg:px-8">
-        <div className="grid gap-5 xl:grid-cols-[1.05fr_0.95fr]">
-          <MiniLineChart data={progressData} />
-          <HorizontalBars data={skillScores} />
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-7xl px-5 pb-24 lg:px-8">
+      <section id="insights" className="mx-auto max-w-7xl px-5 pb-24 lg:px-8">
         <Card className="overflow-hidden border-slate-200 !bg-white p-0 text-slate-950">
-          <div className="grid gap-0 lg:grid-cols-[1.1fr_0.9fr]">
+          <div className="grid gap-0 lg:grid-cols-[1.05fr_0.95fr]">
             <div className="p-8">
-              <Badge tone="green">For leaders and participants</Badge>
+              <Badge tone="green">Participant and leader views</Badge>
               <h2 className="mt-4 max-w-2xl text-3xl font-semibold tracking-tight md:text-5xl">
-                Run multiple initiatives without losing the human side of learning.
+                Built to feel like one product, not two separate dashboards.
               </h2>
               <p className="mt-4 max-w-2xl text-sm leading-7 text-slate-600">
-                TaskMesh helps leaders automate the repetitive work while helping members see exactly how they are improving.
+                Participants get clear next actions and trusted feedback. Leaders get health, engagement, and initiative management in the same system.
               </p>
               <div className="mt-6 flex flex-wrap gap-3">
                 <Button asChild>
@@ -241,12 +204,12 @@ export function LandingPage() {
             <div className="border-t border-slate-200 bg-slate-50 p-8 lg:border-l lg:border-t-0">
               <div className="grid gap-3 sm:grid-cols-2">
                 {[
-                  "Automated streak tracking",
-                  "Private cohort groups",
-                  "AI coaching feedback",
-                  "Leaderboard and reports",
-                  "Submission review history",
-                  "Growth analytics"
+                  "Recurring task rhythm",
+                  "AI evaluation reports",
+                  "Private sub-groups",
+                  "Role-based navigation",
+                  "Progress and streak tracking",
+                  "Notification center"
                 ].map((item) => (
                   <div key={item} className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 shadow-sm">
                     {item}
@@ -263,48 +226,30 @@ export function LandingPage() {
 
 export function SignInView() {
   return (
-    <div className="grid min-h-screen bg-slate-50 lg:grid-cols-[1.08fr_0.92fr]">
-      <div className="relative flex items-center justify-center overflow-hidden bg-[radial-gradient(circle_at_20%_15%,rgba(99,102,241,0.28),transparent_28%),radial-gradient(circle_at_85%_80%,rgba(124,58,237,0.18),transparent_30%),linear-gradient(145deg,#0f172a_0%,#172554_100%)] px-6 py-12 text-white">
+    <div className="grid min-h-screen bg-slate-50 lg:grid-cols-[1.02fr_0.98fr]">
+      <div className="relative flex items-center justify-center overflow-hidden bg-[radial-gradient(circle_at_20%_15%,rgba(37,99,235,0.18),transparent_28%),radial-gradient(circle_at_85%_80%,rgba(20,184,166,0.12),transparent_30%),linear-gradient(145deg,#0f172a_0%,#111827_100%)] px-6 py-12 text-white">
         <div className="absolute -right-24 top-20 h-56 w-56 rounded-full border border-white/10" />
         <div className="absolute -bottom-32 -left-16 h-72 w-72 rounded-full border border-white/10" />
         <div className="relative w-full max-w-xl taskmesh-enter">
           <Badge tone="green" className="mb-5">Welcome back</Badge>
-          <h1 className="text-4xl font-semibold tracking-tight md:text-5xl">Continue your growth journey.</h1>
-          <p className="mt-4 text-base leading-7 text-white/70">Pick up where you left off across tasks, feedback, and initiative progress.</p>
-          <div className="mt-8 rounded-3xl border border-white/10 bg-white/10 p-4 shadow-2xl backdrop-blur">
-            <div className="flex items-center justify-between border-b border-white/10 pb-3"><span className="text-xs font-semibold uppercase tracking-[0.2em] text-white/50">Your workspace</span><span className="h-2 w-2 rounded-full bg-emerald-400" /></div>
-            <div className="mt-4 grid gap-3 sm:grid-cols-3"><div className="rounded-2xl bg-white/10 p-3"><p className="text-xs text-white/55">Today&apos;s focus</p><p className="mt-2 text-sm font-medium">Binary Search</p><div className="mt-3 h-1.5 rounded-full bg-white/10"><div className="h-full w-2/3 rounded-full bg-indigo-300" /></div></div><div className="rounded-2xl bg-white/10 p-3"><p className="text-xs text-white/55">AI score</p><p className="mt-2 text-2xl font-semibold">87</p><p className="mt-1 text-xs text-emerald-300">+4 this week</p></div><div className="rounded-2xl bg-white/10 p-3"><p className="text-xs text-white/55">Streak</p><p className="mt-2 text-2xl font-semibold">12 days</p><p className="mt-1 text-xs text-indigo-200">On track</p></div></div>
-          </div>
-          <div className="mt-8 grid gap-4 sm:grid-cols-2">
-            <Card className="border-white/10 !bg-white/10 p-5 text-white shadow-none">
-              <p className="text-sm text-white/60">Active initiatives</p>
-              <p className="mt-3 text-3xl font-semibold">4</p>
-            </Card>
-            <Card className="border-white/10 !bg-white/10 p-5 text-white shadow-none">
-              <p className="text-sm text-white/60">Ready feedback</p>
-              <p className="mt-3 text-3xl font-semibold">2</p>
-            </Card>
+          <h1 className="text-4xl font-semibold tracking-tight md:text-5xl">Return to your workspace.</h1>
+          <p className="mt-4 text-base leading-7 text-white/70">Pick up active tasks, review new feedback, or switch into leader mode without losing context.</p>
+          <div className="mt-8 grid gap-4 sm:grid-cols-3">
+            {[
+              ["Tasks", "Today's work"],
+              ["Feedback", "Ready to review"],
+              ["Groups", "Private pods"]
+            ].map(([label, value]) => (
+              <div key={label} className="rounded-[24px] border border-white/10 bg-white/8 p-4">
+                <p className="text-xs text-white/55">{label}</p>
+                <p className="mt-2 text-sm font-medium text-white">{value}</p>
+              </div>
+            ))}
           </div>
         </div>
       </div>
       <div className="flex items-center justify-center border-l border-slate-200/70 bg-white px-6 py-12">
-        <Card className="w-full max-w-md p-7 shadow-[0_24px_80px_-36px_rgba(15,23,42,0.35)]">
-          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-orange-600">Sign in</p>
-          <h2 className="mt-2 text-2xl font-semibold text-slate-950">Access your workspace</h2>
-          <div className="mt-6 space-y-4">
-            <div><label className="mb-2 block text-sm font-medium text-slate-700" htmlFor="sign-in-email">Email</label><Input id="sign-in-email" type="email" autoComplete="email" placeholder="aarav@example.com" /></div>
-            <div>
-              <label className="mb-2 block text-sm font-medium text-slate-700" htmlFor="sign-in-password">Password</label>
-              <Input id="sign-in-password" type="password" autoComplete="current-password" placeholder="Your password" />
-            </div>
-            <Button className="w-full" asChild>
-              <Link href="/app/dashboard">Sign in</Link>
-            </Button>
-            <p className="text-center text-sm text-slate-500">
-              New here? <Link className="font-medium text-orange-600" href="/sign-up">Create an account</Link>
-            </p>
-          </div>
-        </Card>
+        <ClerkSignIn routing="path" path="/sign-in" signUpUrl="/sign-up" />
       </div>
     </div>
   );
@@ -313,25 +258,14 @@ export function SignInView() {
 export function SignUpView() {
   return (
     <div className="grid min-h-screen lg:grid-cols-2">
-      <div className="flex items-center justify-center bg-[radial-gradient(circle_at_top_left,rgba(79,70,229,0.10),transparent_32%),linear-gradient(180deg,#f7f8ff_0%,#ffffff_60%)] px-6 py-12">
-        <Card className="w-full max-w-md p-7 shadow-[0_24px_80px_-36px_rgba(15,23,42,0.35)]">
-          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-orange-600">Create account</p>
-          <h2 className="mt-2 text-2xl font-semibold text-slate-950">Start a new initiative workspace</h2>
-          <div className="mt-6 space-y-4">
-            <Input aria-label="Full name" autoComplete="name" placeholder="Full name" />
-            <Input aria-label="Work email" type="email" autoComplete="email" placeholder="Work email" />
-            <Input aria-label="Workspace name" placeholder="Workspace name" />
-            <Button className="w-full" asChild>
-              <Link href="/leader/dashboard">Create workspace</Link>
-            </Button>
-          </div>
-        </Card>
+      <div className="flex items-center justify-center bg-[radial-gradient(circle_at_top_left,rgba(37,99,235,0.10),transparent_32%),linear-gradient(180deg,#f7f8ff_0%,#ffffff_60%)] px-6 py-12">
+        <ClerkSignUp routing="path" path="/sign-up" signInUrl="/sign-in" />
       </div>
       <div className="flex items-center justify-center bg-slate-950 px-6 py-12 text-white">
         <div className="max-w-xl">
-          <Badge tone="orange" className="mb-5">For leaders</Badge>
-          <h1 className="text-4xl font-semibold tracking-tight md:text-5xl">Create programs that run themselves.</h1>
-          <p className="mt-4 text-base leading-7 text-white/70">Set goals, define rubrics, monitor completion, and build private accountability groups in one place.</p>
+          <Badge tone="green" className="mb-5">For leaders</Badge>
+          <h1 className="text-4xl font-semibold tracking-tight md:text-5xl">Set a cadence people can actually follow.</h1>
+          <p className="mt-4 text-base leading-7 text-white/70">Define work, track participation, review submissions, and keep private groups aligned inside the same workspace.</p>
         </div>
       </div>
     </div>
@@ -377,7 +311,6 @@ function InitiativeCard({ initiative }: { initiative: Initiative }) {
 
 export function StudentWorkspace({ slug }: { slug: string[] }) {
   const section = slug[0] ?? "dashboard";
-  const initiative = initiatives[0];
 
   if (section === "initiatives") {
     if (slug.length > 1) {
@@ -682,7 +615,21 @@ export function DashboardPage({ role }: { role?: "student" | "leader" }) {
 }
 
 export function DetailInitiative({ initiative, role }: { initiative: Initiative; role: "student" | "leader" }) {
-  const [joined, setJoined] = useState(false);
+  const [joinState, setJoinState] = useState<"idle" | "joining" | "joined" | "error">("idle");
+  const [joinError, setJoinError] = useState<string | null>(null);
+  async function handleJoin() {
+    setJoinState("joining");
+    setJoinError(null);
+    try {
+      const response = await fetch(`/api/initiatives/${initiative.id}/join`, { method: "POST" });
+      const body = await response.json() as { error?: string };
+      if (!response.ok) throw new Error(body.error ?? "Could not join this initiative");
+      setJoinState("joined");
+    } catch (error) {
+      setJoinState("error");
+      setJoinError(error instanceof Error ? error.message : "Could not join this initiative");
+    }
+  }
   return (
     <div className="space-y-8 pb-20 xl:pb-6">
       <HeroHeader
@@ -691,7 +638,7 @@ export function DetailInitiative({ initiative, role }: { initiative: Initiative;
         actions={
           <>
             <Badge tone={initiative.privacy === "Private" ? "slate" : "green"}>{initiative.privacy}</Badge>
-            {role === "student" ? <Button variant={joined ? "success" : "primary"} onClick={() => setJoined(true)}>{joined ? "Joined" : "Join initiative"}</Button> : <Button asChild><Link href={`/leader/initiatives/${initiative.id}/analytics`}>View analytics</Link></Button>}
+            {role === "student" ? <Button variant={joinState === "joined" ? "success" : "primary"} onClick={() => void handleJoin()} disabled={joinState === "joining" || joinState === "joined"}>{joinState === "joining" ? "Joining..." : joinState === "joined" ? "Joined" : "Join initiative"}</Button> : <Button asChild><Link href={`/leader/initiatives/${initiative.id}/analytics`}>View analytics</Link></Button>}
           </>
         }
       />
@@ -734,14 +681,31 @@ export function DetailInitiative({ initiative, role }: { initiative: Initiative;
           </div>
         </Card>
       </div>
+      {joinError ? <p className="text-sm text-red-700" role="alert">{joinError}</p> : null}
     </div>
   );
 }
 
 export function TaskDetail({ taskId }: { taskId: string }) {
   const task = activeTasks.find((item) => item.id === taskId) ?? activeTasks[0];
-  const [submitted, setSubmitted] = useState(false);
+  const [submissionState, setSubmissionState] = useState<"idle" | "submitting" | "submitted">("idle");
+  const [submissionError, setSubmissionError] = useState<string | null>(null);
+  const [submissionId, setSubmissionId] = useState<string | null>(null);
   const [content, setContent] = useState("");
+  async function handleSubmit() {
+    setSubmissionState("submitting");
+    setSubmissionError(null);
+    try {
+      const response = await fetch("/api/submissions", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ taskId: task.id, content }) });
+      const body = await response.json() as { error?: string; submission?: { id: string } };
+      if (!response.ok || !body.submission) throw new Error(body.error ?? "Could not save your submission");
+      setSubmissionId(body.submission.id);
+      setSubmissionState("submitted");
+    } catch (error) {
+      setSubmissionState("idle");
+      setSubmissionError(error instanceof Error ? error.message : "Could not save your submission");
+    }
+  }
   return (
     <div className="space-y-8 pb-20 xl:pb-6">
       <HeroHeader
@@ -756,14 +720,24 @@ export function TaskDetail({ taskId }: { taskId: string }) {
       />
       <div className="grid gap-5 xl:grid-cols-[1.05fr_0.95fr]">
         <Card className="p-5">
-          <SectionHeader eyebrow="Task" title="Task details" description="Complete the task in the format that fits best." />
+          <SectionHeader eyebrow="Task" title="Task details" description="Keep the objective, submission format, and rubric in view while you work." />
           <div className="mt-5 grid gap-4 md:grid-cols-2">
             <InlineStat label="Due" value={task.due} />
             <InlineStat label="Progress" value={formatPercent(task.progress)} />
             <InlineStat label="Submission types" value={task.submissionType.join(" / ")} />
             <InlineStat label="Status" value={task.status} />
           </div>
-          <div id="rubric" className="mt-5 rounded-3xl bg-slate-50 p-5">
+          <div className="mt-5 grid gap-4 md:grid-cols-[1.05fr_0.95fr]">
+            <div className="rounded-[28px] bg-slate-50 p-5">
+              <p className="text-sm font-medium text-slate-950">Objective</p>
+              <p className="mt-2 text-sm leading-7 text-slate-600">{task.description}</p>
+            </div>
+            <div className="rounded-[28px] bg-slate-50 p-5">
+              <p className="text-sm font-medium text-slate-950">Accepted formats</p>
+              <p className="mt-2 text-sm leading-7 text-slate-600">{task.submissionType.join(", ")}</p>
+            </div>
+          </div>
+          <div id="rubric" className="mt-5 rounded-[28px] bg-slate-50 p-5">
             <p className="text-sm font-medium text-slate-950">Rubric</p>
             <div className="mt-3 flex flex-wrap gap-2">
               {task.rubric.map((item) => (
@@ -774,14 +748,14 @@ export function TaskDetail({ taskId }: { taskId: string }) {
         </Card>
         <Card id="submission" className="p-5">
           <p className="text-sm font-medium text-slate-950">Submission area</p>
-          {submitted ? <SubmissionProcessing task={task} /> : <div className="mt-4 space-y-3">
+          {submissionState === "submitted" ? <SubmissionProcessing task={task} submissionId={submissionId} /> : <div className="mt-4 space-y-3">
             <label className="sr-only" htmlFor="submission-content">Your submission</label>
-            <textarea id="submission-content" value={content} onChange={(event) => setContent(event.target.value)} className="min-h-[140px] w-full rounded-2xl border border-slate-300 p-4 outline-none transition placeholder:text-slate-400 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-100" placeholder="Paste your code, link, or reflection here..." />
+            <textarea id="submission-content" value={content} onChange={(event) => setContent(event.target.value)} className="min-h-[140px] w-full rounded-2xl border border-slate-300 p-4 outline-none transition placeholder:text-slate-400 focus:border-primary focus:ring-4 focus:ring-ring/15" placeholder="Paste your code, link, reflection, or notes here..." />
             <div className="grid gap-3 sm:grid-cols-2">
-              <label className="inline-flex min-h-10 cursor-pointer items-center justify-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-900 transition hover:-translate-y-0.5 hover:bg-slate-50 focus-within:ring-2 focus-within:ring-indigo-500/50"><input type="file" className="sr-only" aria-label="Attach a file" />Attach file</label>
-              <Button onClick={() => setSubmitted(true)} disabled={!content.trim()}>Submit for evaluation</Button>
+              <label className="inline-flex min-h-10 cursor-pointer items-center justify-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-900 transition hover:-translate-y-0.5 hover:bg-slate-50 focus-within:ring-2 focus-within:ring-ring/15"><input type="file" className="sr-only" aria-label="Attach a file" />Attach file</label>
+              <Button onClick={() => void handleSubmit()} disabled={!content.trim() || submissionState === "submitting"}>{submissionState === "submitting" ? "Saving..." : "Submit for evaluation"}</Button>
             </div>
-            <p className="text-xs text-slate-500">Your submission is scored against {task.rubric.length} rubric signals.</p>
+            {submissionError ? <p className="text-sm text-red-700" role="alert">{submissionError}</p> : <p className="text-xs text-slate-500">Your submission is sent to the server and will remain pending until an evaluation provider is configured.</p>}
           </div>}
         </Card>
       </div>
@@ -789,25 +763,27 @@ export function TaskDetail({ taskId }: { taskId: string }) {
   );
 }
 
-function SubmissionProcessing({ task }: { task: (typeof activeTasks)[number] }) {
-  const steps = ["Preparing submission", "Analyzing content", "Applying evaluation rubric", "Generating personalized feedback", "Evaluation complete"];
-  const [step, setStep] = useState(0);
-  useEffect(() => {
-    const timer = window.setInterval(() => setStep((current) => Math.min(current + 1, steps.length - 1)), 850);
-    return () => window.clearInterval(timer);
-  }, [steps.length]);
-  const complete = step === steps.length - 1;
-  return <div className="mt-4 rounded-3xl border border-slate-200 bg-slate-50 p-5 taskmesh-enter">
+function SubmissionProcessing({ task, submissionId }: { task: (typeof activeTasks)[number]; submissionId: string | null }) {
+  return <div className="mt-4 rounded-[28px] border border-slate-200 bg-slate-50 p-5 taskmesh-enter">
     <div className="flex items-start gap-3">
-      <div className={cn("mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full", complete ? "bg-green-100 text-green-700" : "bg-orange-100 text-orange-700")}>
-        {complete ? <CheckCircle2 className="h-5 w-5" /> : <Sparkles className="h-5 w-5 animate-pulse" />}
+      <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-slate-900 text-white">
+        <CheckCircle2 className="h-5 w-5" />
       </div>
-      <div className="min-w-0 flex-1"><p className="font-medium text-slate-950">{complete ? "Your evaluation is ready" : "AI coach is reviewing your work"}</p><p className="mt-1 text-sm text-slate-500">{complete ? "See your score, strengths, and next steps." : steps[step]}</p></div>
-      <span className="text-sm font-semibold text-slate-700">{complete ? "100%" : `${Math.round(((step + 1) / steps.length) * 100)}%`}</span>
+      <div className="min-w-0 flex-1">
+        <p className="font-medium text-slate-950">Submission queued</p>
+        <p className="mt-1 text-sm text-slate-500">
+          Your work is saved on the server and is waiting for evaluation. Feedback will appear after a valid provider result is stored.
+        </p>
+      </div>
     </div>
-    <Progress value={((step + 1) / steps.length) * 100} className="mt-5" />
-    <div className="mt-5 space-y-2">{steps.map((label, index) => <div key={label} className="flex items-center gap-2 text-sm"><span className={cn("h-2 w-2 rounded-full", index <= step ? "bg-green-500" : "bg-slate-200")} /><span className={index <= step ? "text-slate-700" : "text-slate-400"}>{label}</span></div>)}</div>
-    {complete ? <Button className="mt-5 w-full" asChild><Link href={`/app/evaluation/${submissions[0].id}`}>View feedback</Link></Button> : <p className="mt-5 text-xs text-slate-500">{task.title} is safely queued. You can leave this page.</p>}
+    <div className="mt-5 grid gap-3 md:grid-cols-2">
+      <InlineStat label="Submission" value={submissionId ? `#${submissionId.slice(0, 8)}` : "Saved"} />
+      <InlineStat label="Next step" value="Evaluation pending" />
+    </div>
+    <div className="mt-5 rounded-[22px] border border-dashed border-slate-300 bg-white p-4 text-sm leading-6 text-slate-600">
+      <p className="font-medium text-slate-950">What happens next</p>
+      <p className="mt-2">Accepted formats: {task.submissionType.join(", ")}. The server has stored this submission; evaluation status will update when the configured provider processes it.</p>
+    </div>
   </div>;
 }
 
@@ -992,12 +968,16 @@ export function GroupsPage() {
                 <p className="text-lg font-semibold text-slate-950">{group.name}</p>
                 <p className="mt-1 text-sm text-slate-500">{group.description}</p>
               </div>
-              <Badge tone="orange">Rank #{group.leaderboardRank}</Badge>
+              <Badge tone="slate">Private</Badge>
             </div>
             <div className="mt-5 grid gap-4 sm:grid-cols-3">
               <InlineStat label="Members" value={group.members.toString()} />
               <InlineStat label="Leaderboard" value={`#${group.leaderboardRank}`} />
-              <InlineStat label="Cohort" value={group.initiativeId} />
+              <InlineStat label="Initiative" value={group.initiativeId} />
+            </div>
+            <div className="mt-4 rounded-[24px] bg-slate-50 p-4 text-sm leading-6 text-slate-600">
+              <p className="font-medium text-slate-950">Group purpose</p>
+              <p className="mt-1">Use private groups for peer review, support pods, or invite-only cohorts. A join code can be issued by the leader when the group is ready.</p>
             </div>
           </Card>
         ))}
@@ -1026,19 +1006,41 @@ export function NotificationsPage() {
   return (
     <div className="space-y-8 pb-20 xl:pb-6">
       <HeroHeader title="Notifications" subtitle="Feedback, reminders, announcements, and milestone updates in one place." />
-      <Card className="p-5">
-        <div className="space-y-3">
-          {notifications.map((item) => (
-            <div key={item.id} className="rounded-2xl border border-slate-200 p-4">
-              <div className="flex items-center justify-between">
-                <p className="font-medium text-slate-950">{item.title}</p>
-                <span className="text-xs text-slate-400">{item.time}</span>
+      <div className="grid gap-5 lg:grid-cols-[0.92fr_1.08fr]">
+        <Card className="p-5">
+          <SectionHeader eyebrow="Channels" title="Notification categories" description="Group updates by intent so important events do not disappear into noise." />
+          <div className="mt-5 space-y-3">
+            {[
+              ["Feedback", "Evaluation results and AI review summaries"],
+              ["Task reminders", "Due-date nudges and submission prompts"],
+              ["Leader updates", "Announcements, cohort updates, and schedule changes"],
+              ["System", "Account or workspace notices"]
+            ].map(([label, description]) => (
+              <div key={label} className="rounded-[24px] border border-slate-200 bg-white px-4 py-3">
+                <p className="font-medium text-slate-950">{label}</p>
+                <p className="mt-1 text-sm text-slate-500">{description}</p>
               </div>
-              <p className="mt-2 text-sm leading-6 text-slate-600">{item.body}</p>
-            </div>
-          ))}
-        </div>
-      </Card>
+            ))}
+          </div>
+        </Card>
+        <Card className="p-5">
+          <SectionHeader eyebrow="Inbox" title="Recent updates" description="Unread and processed items can be separated by backend state when available." />
+          <div className="mt-5 space-y-3">
+            {notifications.map((item) => (
+              <div key={item.id} className="rounded-[24px] border border-slate-200 bg-white p-4">
+                <div className="flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-2">
+                    <Badge tone={item.kind === "feedback" ? "green" : item.kind === "leader" ? "slate" : "orange"}>{item.kind}</Badge>
+                    <p className="font-medium text-slate-950">{item.title}</p>
+                  </div>
+                  <span className="text-xs text-slate-400">{item.time}</span>
+                </div>
+                <p className="mt-2 text-sm leading-6 text-slate-600">{item.body}</p>
+              </div>
+            ))}
+          </div>
+        </Card>
+      </div>
     </div>
   );
 }
@@ -1047,17 +1049,21 @@ export function ProfilePage() {
   return (
     <div className="space-y-8 pb-20 xl:pb-6">
       <HeroHeader title={currentStudent.name} subtitle={`${currentStudent.location} | ${currentStudent.plan}`} />
-      <div className="grid gap-5 xl:grid-cols-[0.9fr_1.1fr]">
+      <div className="grid gap-5 xl:grid-cols-[0.92fr_1.08fr]">
         <Card className="p-5">
           <Avatar name={currentStudent.name} className="h-16 w-16 text-lg" />
           <p className="mt-4 text-lg font-semibold text-slate-950">{currentStudent.name}</p>
           <p className="text-sm text-slate-500">Participant profile</p>
+          <div className="mt-5 rounded-[24px] bg-slate-50 p-4 text-sm leading-6 text-slate-600">
+            <p className="font-medium text-slate-950">Account overview</p>
+            <p className="mt-1">Profile settings, notifications, and organization metadata should be backed by the account service once the backend is connected.</p>
+          </div>
         </Card>
         <Card className="p-5">
-          <SectionHeader title="Settings snapshot" description="Preferences, notifications, and account controls are ready for deeper configuration." />
+          <SectionHeader title="Profile settings" description="Keep the controls grouped by concern so this can grow into a full account area." />
           <div className="mt-5 grid gap-4 md:grid-cols-2">
             <InlineStat label="Notifications" value="Enabled" />
-            <InlineStat label="Theme" value="Warm light" />
+            <InlineStat label="Theme" value="Warm neutral" />
             <InlineStat label="Language" value="English" />
             <InlineStat label="Timezone" value="IST" />
           </div>
@@ -1071,14 +1077,29 @@ export function SettingsPage({ role }: { role: "student" | "leader" }) {
   return (
     <div className="space-y-8 pb-20 xl:pb-6">
       <HeroHeader title="Settings" subtitle={role === "leader" ? "Manage initiative defaults and workspace preferences." : "Tune your experience and notification preferences."} />
-      <Card className="p-5">
-        <div className="grid gap-4 md:grid-cols-2">
-          <InlineStat label="Role" value={role} />
-          <InlineStat label="Theme" value="Warm neutral" />
-          <InlineStat label="Email" value="Connected" />
-          <InlineStat label="Notifications" value="Daily summary" />
-        </div>
-      </Card>
+      <div className="grid gap-5 xl:grid-cols-3">
+        <Card className="p-5">
+          <SectionHeader eyebrow="Account" title="Profile" description="Identity, email, and workspace membership." />
+          <div className="mt-5 space-y-4">
+            <InlineStat label="Role" value={role} />
+            <InlineStat label="Email" value="Connected" />
+          </div>
+        </Card>
+        <Card className="p-5">
+          <SectionHeader eyebrow="Preferences" title="Experience" description="Theme, language, and notification cadence." />
+          <div className="mt-5 space-y-4">
+            <InlineStat label="Theme" value="Warm neutral" />
+            <InlineStat label="Notifications" value="Daily summary" />
+          </div>
+        </Card>
+        <Card className="p-5">
+          <SectionHeader eyebrow="Security" title="Access" description="Session controls and future authentication settings." />
+          <div className="mt-5 space-y-4">
+            <InlineStat label="Password" value="Managed externally" />
+            <InlineStat label="MFA" value="Ready for backend" />
+          </div>
+        </Card>
+      </div>
     </div>
   );
 }
