@@ -20,9 +20,11 @@ const config: Config = {
         border: "hsl(var(--border))",
         ring: "hsl(var(--ring))",
         primary: "hsl(var(--primary))",
+        "primary-foreground": "hsl(var(--primary-foreground))",
         ai: "hsl(var(--ai))",
         info: "hsl(var(--info))",
         danger: "hsl(var(--danger))",
+        success: "hsl(var(--success))",
         violet: {
           50: "hsl(262 80% 97%)",
           100: "hsl(262 76% 93%)",
@@ -49,11 +51,12 @@ const config: Config = {
         }
       },
       boxShadow: {
-        soft: "0 12px 40px -18px rgba(15, 23, 42, 0.35)"
+        soft: "0 14px 44px -22px rgba(15, 23, 42, 0.34)",
+        insetSoft: "inset 0 1px 0 rgba(255, 255, 255, 0.55)"
       },
       backgroundImage: {
         "mesh-radial":
-          "radial-gradient(circle at top left, rgba(79, 70, 229, 0.10), transparent 30%), radial-gradient(circle at top right, rgba(124, 58, 237, 0.08), transparent 28%), radial-gradient(circle at bottom left, rgba(15, 23, 42, 0.06), transparent 30%)"
+          "radial-gradient(circle at top left, rgba(37, 99, 235, 0.08), transparent 30%), radial-gradient(circle at top right, rgba(20, 184, 166, 0.06), transparent 28%), radial-gradient(circle at bottom left, rgba(15, 23, 42, 0.05), transparent 30%)"
       }
     }
   },

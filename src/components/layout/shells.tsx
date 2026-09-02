@@ -5,8 +5,8 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import type { ReactNode } from "react";
 import { ArrowRight, Bell, BookOpen, CalendarDays, ChevronRight, LayoutGrid, ShieldCheck, Sparkles, Target, Users } from "lucide-react";
-import { Avatar, Badge, Button, Card, NavLink } from "@/components/ui";
-import { cn, initials } from "@/lib/utils";
+import { Avatar, Badge, Button, NavLink } from "@/components/ui";
+import { cn } from "@/lib/utils";
 import { initiatives, currentLeader, currentStudent } from "@/mock";
 
 const studentNav = [
@@ -33,7 +33,7 @@ export function TopBrand() {
       </div>
       <div>
         <p className="text-sm font-semibold tracking-tight text-slate-950">TaskMesh</p>
-        <p className="text-xs text-slate-500">Turn consistent practice into measurable growth</p>
+        <p className="text-xs text-slate-500">AI-guided growth and initiative tracking</p>
       </div>
     </Link>
   );
@@ -42,14 +42,14 @@ export function TopBrand() {
 export function MarketingShell({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen bg-[var(--background)] text-slate-950">
-      <header className="sticky top-0 z-40 border-b border-slate-200/70 bg-white/80 backdrop-blur">
+      <header className="sticky top-0 z-40 border-b border-slate-200/70 bg-white/82 backdrop-blur">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-8">
           <TopBrand />
           <nav className="hidden items-center gap-2 md:flex">
-            <a href="#features" className="rounded-full px-3 py-2 text-sm text-slate-600 hover:bg-slate-100">Features</a>
-            <a href="#how" className="rounded-full px-3 py-2 text-sm text-slate-600 hover:bg-slate-100">How it works</a>
-            <a href="#initiatives" className="rounded-full px-3 py-2 text-sm text-slate-600 hover:bg-slate-100">Initiatives</a>
-            <a href="#insights" className="rounded-full px-3 py-2 text-sm text-slate-600 hover:bg-slate-100">Insights</a>
+            <a href="#features" className="rounded-full px-3 py-2 text-sm text-slate-600 transition hover:bg-slate-100 hover:text-slate-950">Features</a>
+            <a href="#how" className="rounded-full px-3 py-2 text-sm text-slate-600 transition hover:bg-slate-100 hover:text-slate-950">How it works</a>
+            <a href="#initiatives" className="rounded-full px-3 py-2 text-sm text-slate-600 transition hover:bg-slate-100 hover:text-slate-950">Initiatives</a>
+            <a href="#insights" className="rounded-full px-3 py-2 text-sm text-slate-600 transition hover:bg-slate-100 hover:text-slate-950">Insights</a>
           </nav>
           <div className="flex items-center gap-2">
             <Button variant="ghost" asChild>
@@ -88,11 +88,11 @@ export function AppShell({ children, role = "student" }: { children: ReactNode; 
   }, []);
 
   return (
-    <div className="min-h-screen bg-[linear-gradient(180deg,#fbfbf8_0%,#ffffff_45%,#f8fafc_100%)] text-slate-950">
+    <div className="min-h-screen bg-[linear-gradient(180deg,#f8fafc_0%,#ffffff_42%,#f4f7fb_100%)] text-slate-950">
       <div className="mx-auto flex min-h-screen max-w-[1600px]">
-        <aside className="sticky top-0 hidden h-screen w-[240px] shrink-0 border-r border-slate-200/70 bg-white/90 px-3 py-5 backdrop-blur xl:flex xl:flex-col">
+        <aside className="sticky top-0 hidden h-screen w-[274px] shrink-0 border-r border-slate-200/70 bg-white/88 px-4 py-5 backdrop-blur xl:flex xl:flex-col">
           <TopBrand />
-          <div className="mt-5 rounded-3xl border border-slate-200 bg-gradient-to-br from-slate-950 to-slate-800 p-3.5 text-white shadow-soft">
+          <div className="mt-5 rounded-[28px] border border-slate-200 bg-[linear-gradient(180deg,#0f172a_0%,#111827_100%)] p-4 text-white shadow-soft">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-xs uppercase tracking-[0.2em] text-white/60">{role === "leader" ? "Leader view" : "Student view"}</p>
@@ -110,7 +110,7 @@ export function AppShell({ children, role = "student" }: { children: ReactNode; 
               </NavLink>
             ))}
           </div>
-          <div className="mt-5 rounded-3xl border border-slate-200 bg-slate-50 p-3.5">
+          <div className="mt-5 rounded-[28px] border border-slate-200 bg-slate-50 p-4">
             <div className="flex items-center justify-between">
               <p className="text-sm font-medium text-slate-950">Quick switch</p>
               <Badge tone="orange">{role === "leader" ? "Owner" : "Participant"}</Badge>
@@ -126,11 +126,11 @@ export function AppShell({ children, role = "student" }: { children: ReactNode; 
             </div>
           </div>
           <div className="mt-auto pt-6">
-            <div className="rounded-3xl border border-slate-200 bg-white p-4 shadow-sm">
-              <p className="text-xs uppercase tracking-[0.2em] text-slate-500">Today's focus</p>
+            <div className="rounded-[28px] border border-slate-200 bg-white p-4 shadow-sm">
+              <p className="text-xs uppercase tracking-[0.2em] text-slate-500">Focus summary</p>
               <div className="mt-3 space-y-3">
                 {initiatives.slice(0, 2).map((initiative) => (
-                  <div key={initiative.id} className="flex items-center justify-between rounded-2xl bg-slate-50 px-3 py-2">
+                  <div key={initiative.id} className="flex items-center justify-between rounded-2xl bg-slate-50 px-3 py-2.5">
                     <div>
                       <p className="text-sm font-medium text-slate-900">{initiative.title}</p>
                       <p className="text-xs text-slate-500">{initiative.skill}</p>
@@ -144,7 +144,7 @@ export function AppShell({ children, role = "student" }: { children: ReactNode; 
         </aside>
 
         <main className="min-w-0 flex-1">
-          <div className="border-b border-slate-200/70 bg-white/70 px-4 py-4 backdrop-blur md:px-6 xl:px-8">
+          <div className="border-b border-slate-200/70 bg-white/74 px-4 py-4 backdrop-blur md:px-6 xl:px-8">
             <div className="flex items-center justify-between gap-4">
               <div className="flex items-center gap-3 xl:hidden">
                 <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-slate-950 text-white">
@@ -157,11 +157,11 @@ export function AppShell({ children, role = "student" }: { children: ReactNode; 
               </div>
               <button onClick={() => setCommandOpen(true)} className="hidden flex-1 items-center gap-3 rounded-full border border-slate-200 bg-white px-4 py-2 text-left shadow-sm transition hover:border-slate-300 hover:shadow-md md:flex" aria-label="Open search">
                 <CalendarDays className="h-4 w-4 text-slate-400" />
-                <span className="text-sm text-slate-500">Search initiatives, tasks, members, reports...</span>
+                <span className="text-sm text-slate-500">Search initiatives, tasks, members, and reports</span>
                 <kbd className="ml-auto rounded-md border border-slate-200 bg-slate-50 px-2 py-1 text-[11px] text-slate-500">Ctrl K</kbd>
               </button>
               <div className="flex items-center gap-2">
-                <Badge tone="green">Live sync</Badge>
+                <Badge tone="green">Workspace ready</Badge>
                 <Button variant="outline" className="hidden sm:inline-flex">Invite</Button>
                 <Avatar name={profile.name} />
               </div>
@@ -171,15 +171,15 @@ export function AppShell({ children, role = "student" }: { children: ReactNode; 
         </main>
       </div>
       {commandOpen ? <CommandMenu onClose={() => setCommandOpen(false)} role={role} /> : null}
-      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-slate-200 bg-white/90 px-4 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-3 backdrop-blur xl:hidden">
-        <div className="mx-auto flex max-w-4xl items-center justify-between gap-2">
-          {nav.slice(0, 5).map((item) => (
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-slate-200 bg-white/92 px-4 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-3 backdrop-blur xl:hidden">
+        <div className="mx-auto flex max-w-4xl items-center gap-2 overflow-x-auto pb-1">
+          {nav.map((item) => (
             <Link
               key={item.href}
               href={item.href}
               className={cn(
-                "flex min-w-0 flex-1 flex-col items-center gap-1 rounded-2xl px-2 py-2 text-[11px] font-medium",
-                pathname.startsWith(item.href) ? "bg-indigo-50 text-indigo-700" : "text-slate-500"
+                "flex min-w-[72px] flex-1 flex-col items-center gap-1 rounded-2xl px-2 py-2 text-[11px] font-medium",
+                pathname.startsWith(item.href) ? "bg-slate-950 text-white" : "text-slate-500"
               )}
             >
               {item.icon}
@@ -198,10 +198,10 @@ function CommandMenu({ onClose, role }: { onClose: () => void; role: "student" |
     : [{ label: "Dashboard", href: "/app/dashboard" }, { label: "Today's tasks", href: "/app/tasks" }, { label: "Initiatives", href: "/app/initiatives" }, { label: "Progress", href: "/app/progress" }, { label: "Leaderboard", href: "/app/leaderboard" }];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center bg-slate-950/30 px-4 pt-[12vh] backdrop-blur-sm" onMouseDown={onClose}>
-      <div className="taskmesh-enter w-full max-w-xl overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-[0_30px_100px_-30px_rgba(15,23,42,0.45)]" onMouseDown={(event) => event.stopPropagation()} role="dialog" aria-modal="true" aria-label="Quick navigation">
+    <div className="fixed inset-0 z-50 flex items-start justify-center bg-slate-950/32 px-4 pt-[12vh] backdrop-blur-sm" onMouseDown={onClose}>
+      <div className="taskmesh-enter w-full max-w-xl overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-[0_30px_100px_-30px_rgba(15,23,42,0.45)]" onMouseDown={(event) => event.stopPropagation()} role="dialog" aria-modal="true" aria-label="Quick navigation">
         <div className="flex items-center gap-3 border-b border-slate-200 px-5 py-4">
-          <Sparkles className="h-4 w-4 text-violet-500" />
+          <Sparkles className="h-4 w-4 text-slate-500" />
           <input autoFocus className="min-w-0 flex-1 text-sm outline-none" placeholder="Jump to a page..." aria-label="Search pages" />
           <kbd className="rounded-md border border-slate-200 bg-slate-50 px-2 py-1 text-[11px] text-slate-500">Esc</kbd>
         </div>
@@ -230,7 +230,7 @@ export function HeroHeader({
   return (
     <div className="mb-8 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
       <div className="max-w-3xl">
-        <p className="text-xs font-semibold uppercase tracking-[0.28em] text-orange-600">TaskMesh</p>
+        <p className="text-xs font-semibold uppercase tracking-[0.28em] text-slate-500">TaskMesh</p>
         <h1 className="mt-2 text-3xl font-semibold tracking-tight text-slate-950 md:text-5xl">{title}</h1>
         <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-600 md:text-base">{subtitle}</p>
       </div>
